@@ -60,7 +60,7 @@ function [count, list] = tclip(a,b,c)
 
         % INSERT CODE needed to handle the case of a vertical line
         x = c/a
-        if x>=0 && x<=1 % doesn't intersect infinetely or only once
+        if x>0 && x<1 % doesn't intersect infinetely or only once
             count = 2;
             list = [x x; 0 1-x]; % endpoints - x axis and 1-x
         elseif x==1 % right endpoint
@@ -110,11 +110,25 @@ function [count, list] = tclip(a,b,c)
         % check intersection with the x-axis (y=0)
 
         %%%% INSERT CODE to process the intersection with the x-axis.
+        x = c/a;
+        if x>0 && x<1
+            count = count+1;
+            list(:,count) = [x;0];
+        end
 
         % check intersection with the hypotenuse (x+y=1)
         
         %%%% INSERT CODE to process the intersection with the hypotenuse.
-        
+        xh = (c-b)/(a-b);
+        yh = 1-xh;
+        if xh>=0 && xh<1 && yh>=0 && yh<=1
+            count = count+1;
+            list(:,count) = [xh;yh];
+        end
+
+        if count == 1
+            list = list(:,1);
+        end
         return
     end
 end
